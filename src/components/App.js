@@ -8,10 +8,11 @@ export default class App extends Component {
   };
 
   render() {
+    const { books } = this.state;
     return (
       <>
         <SearchForm />
-        <BookList items={this.state.books} />
+        <BookList items={books} />
       </>
     );
   }
