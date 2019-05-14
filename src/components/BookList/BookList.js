@@ -6,13 +6,15 @@ import BookListItem from '../BookListItem/BookListItem';
 const BookList = ({ items }) => (
   <List>
     {items.map(item => (
-      <BookListItem key={item.key} item={item} />
+      <BookListItem key={item.id} {...item} />
     ))}
   </List>
 );
 
 BookList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
+  ).isRequired,
 };
 
 export default BookList;
