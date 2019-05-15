@@ -21,13 +21,14 @@ export default class SearchForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     const { value } = this.state;
-    const { gender } = this.state.selectedOption.value;
+    const { gender } = this.state.selectedOption.value || '';
     this.props.onSubmit(value, gender);
     this.reset();
   };
 
-  reset = () => this.setState({ value: '', selectedOption: null });
+  reset = () => this.setState({ value: '', selectedOption: '' });
 
   render() {
     const { value, selectedOption } = this.state;

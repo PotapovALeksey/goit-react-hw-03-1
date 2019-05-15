@@ -31,15 +31,19 @@ const BookListItem = ({
   </Item>
 );
 
+BookListItem.defaultProps = {
+  description: 'No description',
+};
+
 BookListItem.propTypes = {
   title: PropTypes.string.isRequired,
   authors: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   imageLinks: PropTypes.shape({ thumbnail: PropTypes.string.isRequired })
     .isRequired,
   publisher: PropTypes.string.isRequired,
   publishedDate: PropTypes.string.isRequired,
-  pageCount: PropTypes.string.isRequired,
+  pageCount: PropTypes.number.isRequired,
 };
 
 export default BookListItem;
