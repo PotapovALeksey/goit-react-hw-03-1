@@ -28,9 +28,8 @@ export default class App extends Component {
 
     BooksAPI.fetchBooks(query, gender)
       .then(({ items }) => {
-        this.setState({ books: mapper(items), isLoading: false });
+        this.setState({ books: mapper(items) });
       })
-      .then(({ items }) => this.setState({ books: mapper(items) }))
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ isLoading: false }));
   };

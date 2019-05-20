@@ -12,7 +12,7 @@ export default class SearchForm extends Component {
 
   state = {
     value: '',
-    selectedOption: genders[0],
+    selectedOption: '',
   };
 
   handleChangeInput = e => this.setState({ value: e.target.value });
@@ -23,7 +23,8 @@ export default class SearchForm extends Component {
     e.preventDefault();
 
     const { value } = this.state;
-    const { gender } = this.state.selectedOption.value || '';
+    const gender = this.state.selectedOption.value || '';
+
     this.props.onSubmit(value, gender);
     this.reset();
   };

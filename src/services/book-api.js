@@ -10,7 +10,7 @@ export const fetchBooks = (query, gender) => {
         new Promise(resolve => {
           setTimeout(() => {
             resolve(res.data);
-          }, 800);
+          }, 600);
         }),
     );
 };
