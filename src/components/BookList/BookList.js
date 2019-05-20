@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import List from './BookList.styled';
+import styles from './BookList.module.css';
+
 import BookListItem from '../BookListItem/BookListItem';
 
 const BookList = ({ items }) => (
-  <List>
+  <ul className={styles.list}>
     {items.map(item => (
       <BookListItem key={item.id} {...item} />
     ))}
-  </List>
+  </ul>
 );
 
 BookList.propTypes = {
