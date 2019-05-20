@@ -1,1 +1,0 @@
-{"version":3,"sources":["Select.module.css","BookList.module.css"],"names":[],"mappings":"AAAA,sBACE,WACF,CCFA,sBACE,YAAa,CACb,4BAA6B,CAC7B,SACF","file":"main.9de0ddb3.chunk.css","sourcesContent":[".select {\r\n  width: 300px;\r\n}\r\n",".list {\n  display: flex;\n  justify-content: space-around;\n  width: 80%;\n}\n"]}
