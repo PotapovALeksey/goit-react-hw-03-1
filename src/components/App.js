@@ -4,6 +4,13 @@ import * as BooksAPI from '../services/book-api';
 import SearchForm from './SearchForm/SearchForm';
 import BookList from './BookList/BookList';
 
+const spinnerStyles = {
+  position: 'fixed',
+  left: '50%',
+  top: '50%',
+  transform: 'translate(-50%, -50%)',
+};
+
 const mapper = items => {
   return items.map(({ volumeInfo: book, id }) => ({
     ...book,
@@ -44,6 +51,7 @@ export default class App extends Component {
             name="ball-clip-rotate-multiple"
             color="blue"
             fadeIn="none"
+            style={spinnerStyles}
           />
         )}
         {books.length !== 0 && <BookList items={books} />}
