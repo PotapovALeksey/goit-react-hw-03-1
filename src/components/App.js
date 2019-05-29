@@ -3,6 +3,7 @@ import Spinner from 'react-spinkit';
 import * as BooksAPI from '../services/book-api';
 import SearchForm from './SearchForm/SearchForm';
 import BookList from './BookList/BookList';
+import Button from './Button/Button';
 
 const spinnerStyles = {
   position: 'fixed',
@@ -23,6 +24,10 @@ export default class App extends Component {
     books: [],
     isLoading: false,
     error: null,
+    isLoadMore: false,
+    value: '',
+    genres: '',
+    startIndex: 0,
   };
 
   componentDidMount() {
@@ -30,22 +35,52 @@ export default class App extends Component {
     this.handleFetchBooks();
   }
 
-  handleFetchBooks = (query = 'react', gender = 'computers') => {
+  indexIncrement = () =>
+    this.setState(state => ({
+      startIndex: state.startIndex + 10,
+    }));
+
+  resetState = () =>
+    this.setState({ isLoadMore: true, books: [], startIndex: 0 });
+
+  setValue = (value, genres) => this.setState({ value, genres });
+
+  handleFetchBooks = (query, genres, startIndex) => {
     this.setState({ isLoading: true });
 
-    BooksAPI.fetchBooks(query, gender)
+    BooksAPI.fetchBooks(query, genres, startIndex)
       .then(({ items }) => {
-        this.setState({ books: mapper(items) });
+        this.setState(state => ({ books: [...state.books, ...mapper(items)] }));
+        this.indexIncrement();
       })
-      .catch(error => this.setState({ error }))
+      .catch(error => this.setState({ error, isLoadMore: false }))
       .finally(() => this.setState({ isLoading: false }));
   };
 
   render() {
-    const { books, isLoading, error } = this.state;
+    const {
+      books,
+      isLoading,
+      error,
+      isLoadMore,
+      value,
+      genres,
+      startIndex,
+    } = this.state;
+
+    const handleChangeBooksWithArguments = this.handleFetchBooks.bind(
+      null,
+      value,
+      genres,
+      startIndex,
+    );
     return (
       <>
-        <SearchForm onSubmit={this.handleFetchBooks} />
+        <SearchForm
+          onSubmit={this.handleFetchBooks}
+          resetState={this.resetState}
+          setValue={this.setValue}
+        />
         {isLoading && (
           <Spinner
             name="ball-clip-rotate-multiple"
@@ -55,7 +90,16 @@ export default class App extends Component {
           />
         )}
         {books.length !== 0 && <BookList items={books} />}
-        {error && <p>Whoops, something went wrong: {error.message}</p>}
+        {error && (
+          <p>
+            Whoops, something went wrong: {error.message}
+            {}
+          </p>
+        )}
+        {books.length !== 0 && isLoadMore && (
+          // eslint-disable-next-line react/jsx-no-bind
+          <Button onClick={handleChangeBooksWithArguments}>Load more</Button>
+        )}
       </>
     );
   }

@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { Form, Input, Button } from './SearchForm.styled';
-import genders from '../../options/genders.json';
+import genders from '../../options/genres.json';
 import styles from './Select.module.css';
 
 export default class SearchForm extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    resetState: PropTypes.func.isRequired,
+    setValue: PropTypes.func.isRequired,
   };
 
   state = {
@@ -21,11 +23,12 @@ export default class SearchForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
+    const { resetState, onSubmit, setValue } = this.props;
     const { value } = this.state;
-    const gender = this.state.selectedOption.value || '';
-
-    this.props.onSubmit(value, gender);
+    const genres = this.state.selectedOption.value || '';
+    resetState();
+    setValue(value, genres);
+    onSubmit(value, genres);
     this.reset();
   };
 
