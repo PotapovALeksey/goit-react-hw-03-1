@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Spinner from 'react-spinkit';
 import * as BooksAPI from '../services/book-api';
 import SearchForm from './SearchForm/SearchForm';
@@ -30,6 +30,8 @@ export default class App extends Component {
     startIndex: 0,
   };
 
+  loadMorebutton = createRef();
+
   componentDidMount() {
     this.setState({ isLoading: true });
     this.handleFetchBooks();
@@ -47,7 +49,6 @@ export default class App extends Component {
 
   handleFetchBooks = (query, genres, startIndex) => {
     this.setState({ isLoading: true });
-
     BooksAPI.fetchBooks(query, genres, startIndex)
       .then(({ items }) => {
         this.setState(state => ({ books: [...state.books, ...mapper(items)] }));
@@ -97,8 +98,13 @@ export default class App extends Component {
           </p>
         )}
         {books.length !== 0 && isLoadMore && (
-          // eslint-disable-next-line react/jsx-no-bind
-          <Button onClick={handleChangeBooksWithArguments}>Load more</Button>
+          <Button
+            ref={this.loadMorebutton}
+            // eslint-disable-next-line react/jsx-no-bind
+            onClick={handleChangeBooksWithArguments}
+          >
+            Load more
+          </Button>
         )}
       </>
     );
